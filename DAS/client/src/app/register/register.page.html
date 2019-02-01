@@ -1,0 +1,110 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      E-Diary
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content padding>
+    <h2>Registration Portal</h2>
+    <ion-list>
+        <ion-item>
+          <ion-label>Select Type</ion-label>
+          <ion-select [(ngModel)]="registerAs" placeholder="Select One" okText="Okay" cancelText="Dismiss">
+            <ion-select-option value="teacher">Teacher</ion-select-option>
+            <ion-select-option value="parent">Parent</ion-select-option>
+            <ion-select-option value="school">School</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+      
+  <div *ngIf="registerAs=='parent'">
+  <ion-item>
+    <ion-label position="floating">Full Name</ion-label>
+    <ion-input [(ngModel)]="user.name" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Registration Number</ion-label>
+    <ion-input [(ngModel)]="user.registrationNo" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+      <ion-label position="floating">Email</ion-label>
+      <ion-input [(ngModel)]="loginUser.email" type="email"></ion-input>
+    </ion-item>
+    <ion-item>
+        <ion-label position="floating">Password</ion-label>
+        <ion-input [(ngModel)]="loginUser.password" type="password"></ion-input>
+      </ion-item>    
+    <ion-item>
+      <ion-label position="floating">Father Name</ion-label>
+      <ion-input [(ngModel)]="user.fatherName" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Address</ion-label>
+    <ion-input [(ngModel)]="user.address" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+      <ion-label position="floating">Contact Number</ion-label>
+      <ion-input [(ngModel)]="user.contactNo" type="tel"></ion-input>
+    </ion-item>
+
+    <ion-item>
+        <ion-label position="floating">Emergency Number</ion-label>
+        <ion-input [(ngModel)]="user.emergencyNo" type="tel"></ion-input>
+      </ion-item>
+    <ion-item>
+        <ion-label position="floating">CNIC No.</ion-label>
+        <ion-input [(ngModel)]="user.CNIC" type="text"></ion-input>
+      </ion-item>
+  
+      <ion-button color="success" (click)="add(user)" fill = 'outline'>Register</ion-button>
+
+    </div>
+    <div *ngIf="title=='teacher'">
+      <ion-item>
+        <ion-label position="floating">Full Name</ion-label>
+        <ion-input [(ngModel)]="user.name" ></ion-input>
+      </ion-item>
+      <ion-item>
+          <ion-label position="floating">Email</ion-label>
+          <ion-input [(ngModel)]="user.email" type="email"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label position="floating">Password</ion-label>
+            <ion-input [(ngModel)]="loginUser.password" type="password"></ion-input>
+          </ion-item>    
+        <ion-item>
+          <ion-label position="floating">Father Name</ion-label>
+          <ion-input [(ngModel)]="user.fatherName"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Address</ion-label>
+        <ion-input [(ngModel)]="user.address" type="text"></ion-input>
+      </ion-item>
+        <ion-item>
+            <ion-label position="floating">CNIC No.</ion-label>
+            <ion-input [(ngModel)]="user.CNIC" type="Number"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label>Date</ion-label>
+            <ion-datetime [(ngModel)]="user.DOB" display-format="MM/DD/YYYY" >
+            </ion-datetime>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Contact Number</ion-label>
+            <ion-input [(ngModel)]="user.contactNo" type="tel"></ion-input>
+          </ion-item>
+          <ion-item>
+              <ion-label position="floating">Emergency Number</ion-label>
+              <ion-input [(ngModel)]="user.emergencyNo" type="tel"></ion-input>
+            </ion-item>
+      
+          <ion-button color="success" fill = 'outline' (click)="add(user)">Register</ion-button>
+        </div>
+  
+</ion-content>
