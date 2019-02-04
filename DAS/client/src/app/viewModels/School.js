@@ -1,8 +1,4 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
-// bcrypt = require('bcrypt')
-
-const School = new Schema({
+const School = ({
     schoolId:{
       type:String
     },
@@ -24,7 +20,7 @@ const School = new Schema({
     slogan: {
       type: String
     },
-    image:{
+    logo:{
        type:String
     },
     IsActive: {
@@ -41,4 +37,3 @@ const School = new Schema({
   
   
   });
-  module.exports = mongoose.model("School", School);

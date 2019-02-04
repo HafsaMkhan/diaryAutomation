@@ -14,13 +14,19 @@ import {LoginUser} from '../viewModels/LoginUsers';
 })
 export class LoginPage implements OnInit {
 
-  constructor(private navCtrl: NavController,private httpClient: HttpClient,private http: Http,private service: AccountService) { }
+  constructor(private navCtrl: NavController,private httpClient: HttpClient,private http: Http,private service: AccountService) {
+    alert(this.service.error)
+    if(this.service.error!=''){
+      this.errMsg=this.service.error;
+    }
+   }
   loginUser = {} as LoginUser
-
+  errMsg="";
   ngOnInit() {
   }
 
   login() {
-    this.service.loginUser(this.loginUser);
+      this.service.loginUser(this.loginUser)
+      console.log(this.service.error)
     }
 }

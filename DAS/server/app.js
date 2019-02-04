@@ -15,9 +15,46 @@ app.options('*', cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+const multer = require('multer');
+// const jwt = require('jsonwebtoken');
+
+var storage = multer.diskStorage({
+  destination: '../client/myApp/src/images',
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname +'-'+Date.now() )
+  }
+});
+
+var upload = multer({ storage: storage })
+app.use(express.static(__dirname + '../client/myApp/src/images'));
+app.use(upload.single('image'));
+//See the react auth blog in which cors is required for access
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-type,Authorization');
+  next();
+});
+
+app.get('/', function (req, result) {
+  const query = upload.findOne({});
+  query.select('image');
+  query.exec(function (err, meme) {
+    if (err) return handleError(err);
+    result.render('../client/myApp/src/images/', {
+      path: meme.image.imageURL
+    });
+  })
+})  
+
+
+
 app
-.route("/api/register")
+.route("/register/user")
 .post(UserController.RegisterUser)
+
+app
+.route("/register/school")
+.post(UserController.RegisterSchool)
 
 app
 .route("/api/login")
@@ -26,7 +63,6 @@ app
 app
 .route("/api/add/userType")
 .post(AdminController.AddUserType)
-
 
 
 app.listen(port, () => {

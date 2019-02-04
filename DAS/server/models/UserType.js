@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-bcrypt = require('bcrypt')
+// bcrypt = require('bcrypt')
 
 const UserType = new Schema({
     title: {

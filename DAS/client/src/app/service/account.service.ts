@@ -11,21 +11,26 @@ export class AccountService {
   
   constructor(private navCtrl: NavController,private httpClient: HttpClient,private http: Http) { }
   error = "";
+
   RegisterUser(data){
-    const url='http://localhost:3301/api/register';
+    const url='http://localhost:3301/register/user';
     this.http.post(url, data).pipe( 
       map(res=>res.json())
       ).subscribe(data=> {
         console.log("POST Data #######",data)
         if(data.registerStatus=='created'){
+
           alert("Registered")
         }
         else if(data.registerStatus=='existing'){
+          this.error="Account already exists";
           alert("Existing")
         }
         else {
-          alert("Sever Error")
+          this.error="Invalid Information or something went wrong!"
+          alert("Invalid Information or something went wrong!")
         }
+        return data.registerStatus;
       })
   }
 
@@ -36,17 +41,19 @@ export class AccountService {
       map(res=>res.json())
       ).subscribe(data=> {console.log("POST Data #######",data.loginStatus,data.username)
         if(data.loginStatus=='authorized'){
-          this.navCtrl.navigateForward('userHome/'+ data.username)
+          this.error= "Authorized";
+          this.navCtrl.navigateForward('userHome/'+ data.type +'/'+ data.username)
         }
-        else if(data.loginStatus=='not_authorized'){
-          alert("NOT Authorized");
-          this.error="Invalid username or password";
+        else if(data.loginStatus=='unauthorized'){
+          this.error="Incorrect password!";
+        }
+        else if(data.loginStatus=='not_exist'){
+          this.error="Not a registered account";
         }
         else{
-          alert("Failure");
           this.error="Check your connection";
         }
-
+        alert("Error"+ this.error)
       })
   }
 }

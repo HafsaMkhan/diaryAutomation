@@ -12,6 +12,9 @@
 
 <ion-content padding>
   <h3>Login Portal</h3>
+  <div *ngIf="errMsg!=''" padding id="errMsg" class="danger">
+      {{errMsg}}
+    </div>
 <ion-item>
   <ion-label position="floating">Email</ion-label>
   <ion-input [(ngModel)]="loginUser.email" type="email"></ion-input>
