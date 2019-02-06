@@ -1,6 +1,7 @@
 // app.js
 const cors = require('cors');
 const express = require("express");
+const ejs = require('ejs');
 var path = require('path')
 const bodyParser = require("body-parser"); 
 var config=require("./config/db");
@@ -16,12 +17,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 const multer = require('multer');
-// const jwt = require('jsonwebtoken');
 
 var storage = multer.diskStorage({
   destination: '../client/myApp/src/images',
-  filename: function (req, file, cb) {
-    cb(null, file.fieldname +'-'+Date.now() )
+  filename: function(req, file, cb){
+    cb(null,file.fieldname + '-' + Date.now() + path.extname(file.originalname));
   }
 });
 
@@ -35,18 +35,28 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get('/', function (req, result) {
-  const query = upload.findOne({});
-  query.select('image');
-  query.exec(function (err, meme) {
-    if (err) return handleError(err);
-    result.render('../client/myApp/src/images/', {
-      path: meme.image.imageURL
-    });
-  })
-})  
+// app.get('/', function (req, result) {
+//   const query = upload.findOne({});
+//   query.select('image');
+//   query.exec(function (err, meme) {
+//     if (err) return handleError(err);
+//     result.render('../client/myApp/src/images/', {
+//       path: meme.image.imageURL
+//     });
+//   })
+// })  
 
 
+app.post('/upload', (req,res) => {
+  console.log(req.file, req.body) // form files
+  if(req.file){
+      console.log(req.file)
+      res.status(200).json({'file': req.file });
+  }
+  else{
+  res.status(500).json({'statusUpload':'failure'});
+  }
+})
 
 app
 .route("/register/user")
