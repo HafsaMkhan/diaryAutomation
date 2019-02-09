@@ -1,15 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms'; 
-import { HttpClient } from '@angular/common/http';
-import { Http} from '@angular/http';
-import { map } from 'rxjs/internal/operators/map';
+import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
+
+
 import {User} from '../viewModels/User';
 import {LoginUser} from '../viewModels/LoginUsers';
 import {School} from '../viewModels/School';
 import {AccountService} from '../service/account.service'
 import {SchoolService} from '../service/school.service'
-import { Title } from '@angular/platform-browser';
-import { BrMaskerIonic3, BrMaskModel } from 'brmasker-ionic-3';
 
 @Component({
   selector: 'app-register-parent',
@@ -18,32 +15,72 @@ import { BrMaskerIonic3, BrMaskModel } from 'brmasker-ionic-3';
   providers:[AccountService, SchoolService]
 })
 export class RegisterPage implements OnInit {
+  
+  // options=[{value:"parent",name:"Parent"},{value:"school",name:"School"},{value:"teacher",name:"Teacher"}]
 
-  options=[{value:"parent",name:"Parent"},{value:"school",name:"School"},{value:"teacher",name:"Teacher"}]
-
-  constructor(private httpClient: HttpClient,
-    public http: Http,
+  constructor(
     private accountService: AccountService,
-    private schoolService: SchoolService,
-    public brMaskerIonic3: BrMaskerIonic3) { }
+    private schoolService: SchoolService) 
+    {    }
   user = {} as User;
   loginUser = {} as LoginUser;
   school = {} as School;
+  options:[];
   registerAs = "";
   errorMsg = "";
+  msg="";
 
-  ngOnInit() {
-    this.errorMsg=this.accountService.error;
+  ngOnInit() { 
+    this.accountService.GetType().subscribe(res=>{
+      if(res.body.userType=='success'){
+        this.options=res.body.data;
+      }
+
+    })
   }
 
   add() {
+     
     if(this.registerAs=='school'){
-      let data = [this.school,this.loginUser,'school']
-      this.schoolService.RegisterSchool(data);
+      let data = [this.school,this.loginUser,'school'];
+      this.schoolService.RegisterSchool(data)
+      .subscribe(data=> {
+        console.log("POST Data #######",data.body)
+        if(data.body.registerStatus=='created'){
+         this.msg="You have successfully created your account. Your registration status will be updated through an email soon!"
+        }
+        else if(data.body.registerStatus=='existing'){
+          this.errorMsg="School with this information already exists!";
+        }
+        else if(data.body.registerStatus=='email_existing'){
+          this.errorMsg="Email Aready exists";
+        }
+        else if(data.body.registerStatus=='wrong_title'){
+          this.errorMsg="Invalid registration type";
+        }
+        else {
+          this.errorMsg="Invalid Information or something went wrong!"
+        }
+      })
+      
     }
     else{
       let data = [this.user,this.loginUser,this.registerAs]
-      this.accountService.RegisterUser(data);
+      this.accountService.RegisterUser(data).subscribe(data=> {
+        console.log("POST Data #######",data.body.registerStatus)
+        if(data.body.registerStatus=='created'){
+         this.msg="You have successfully created your account. Your registration status will be updated through an email soon!"
+        }
+        else if(data=='existing'){
+          this.errorMsg="Account already exists";
+        }
+        else {
+          this.errorMsg="Invalid Information or something went wrong!"
+          // alert("Invalid Information or something went wrong!")
+          
+        }
+      })
+
     }
     
     }

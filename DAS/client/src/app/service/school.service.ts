@@ -1,45 +1,24 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Http} from '@angular/http';
-import { map } from 'rxjs/internal/operators/map';
-import { NavController } from '@ionic/angular';
+import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class SchoolService {
 
-  constructor(private navCtrl: NavController,private httpClient: HttpClient,private http: Http) { }
-  error = "";
+  constructor(private http: HttpClient) { }
+  httpHeaders = new HttpHeaders({
+    'Content-Type' : 'application/json',
+    'Cache-Control': 'no-cache'
+});
 
-  RegisterSchool(data){
-    alert("Alert here in service")
+  RegisterSchool(data): Observable<any>{
     const url='http://localhost:3301/register/school';
-    this.http.post(url, data).pipe( 
-      map(res=>res.json())
-      ).subscribe(data=> {
-        console.log("POST Data #######",data)
-        if(data.registerStatus=='created'){
-          this.error="Registered"
-          alert(this.error)
-        }
-        else if(data.registerStatus=='existing'){
-          this.error="School with this information already exists!";
-          alert(this.error)
-        }
-        else if(data.registerStatus=='email_existing'){
-          this.error="Email Aready exists";
-          alert(this.error)
-        }
-        else if(data.registerStatus=='wrong_title'){
-          this.error="Invalid registration type";
-          alert(this.error)
-        }
-        else {
-          this.error="Invalid Information or something went wrong!"
-          alert("Invalid Information or something went wrong!")
-        }
-      })
+    return this.http.post(url, data, 
+      {headers: this.httpHeaders, observe:'response',responseType: 'json'})
+    
   }
 
 }

@@ -1,7 +1,6 @@
 // app.js
 const cors = require('cors');
 const express = require("express");
-const ejs = require('ejs');
 var path = require('path')
 const bodyParser = require("body-parser"); 
 var config=require("./config/db");
@@ -30,7 +29,7 @@ app.use(express.static(__dirname + '../client/myApp/src/images'));
 app.use(upload.single('image'));
 //See the react auth blog in which cors is required for access
 app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8100');
   res.setHeader('Access-Control-Allow-Headers', 'Content-type,Authorization');
   next();
 });
@@ -74,6 +73,9 @@ app
 .route("/api/add/userType")
 .post(AdminController.AddUserType)
 
+app
+.route("/get/userType")
+.get(AdminController.getAll)
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);

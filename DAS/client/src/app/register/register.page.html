@@ -9,111 +9,75 @@
   </ion-toolbar>
 </ion-header>
 
-
 <ion-content padding>
     <h2>Registration Portal</h2>
     <ion-list>
         <ion-item>
           <ion-select [(ngModel)]="registerAs" placeholder="Select One" okText="Okay" cancelText="Dismiss">
-            <ion-select-option value="teacher">Teacher</ion-select-option>
-            <ion-select-option value="parent">Parent</ion-select-option>
-            <ion-select-option value="school">School</ion-select-option>
+            <ion-select-option text-capitalize
+            *ngFor="let key of options" 
+            value="key.title">{{key.title | uppercase}}</ion-select-option>
           </ion-select>
         </ion-item>
       </ion-list>
+      <div *ngIf="msg!=''" padding id="errMsg" class="danger">
+        {{msg}}
+      </div>
       <div *ngIf="errorMsg!=''" padding id="errMsg" class="danger">
         {{errorMsg}}
       </div>
-  <div *ngIf="registerAs=='parent'">
-  <ion-item>
-    <ion-label position="floating">Full Name*</ion-label>
+  <div>
+  <ion-item *ngIf="registerAs=='parent'||registerAs=='teacher'">
+    <ion-label  position="floating">Full Name*</ion-label>
     <ion-input [(ngModel)]="user.name" type="text"></ion-input>
   </ion-item>
-  <ion-item>
+  <ion-item *ngIf="registerAs=='parent'">
     <ion-label position="floating">Registration Number*</ion-label>
     <ion-input [(ngModel)]="user.registrationNo" type="text"></ion-input>
   </ion-item>
-  <ion-item>
-    <ion-label position="floating">B-Form No.*</ion-label>
-    <ion-input [(ngModel)]="user.CNIC" type="text"></ion-input>
+  <ion-item *ngIf="registerAs=='teacher'">
+    <ion-label position="floating">Employee ID*</ion-label>
+    <ion-input [(ngModel)]="user.registrationNo" type="text"></ion-input>
   </ion-item>
-  <ion-item>
+
+  <ion-item *ngIf="registerAs=='parent'||registerAs=='teacher'">
+    <ion-label position="floating">CNIC/B-Form No.*</ion-label>
+    <ion-input [(ngModel)]="user.CNIC" type="text" ></ion-input>
+  </ion-item>
+  <ion-item *ngIf="registerAs=='parent'||registerAs=='teacher'">
     <ion-label>Date of Birth*</ion-label>
     <ion-datetime [(ngModel)]="user.DOB" display-format="MM/DD/YYYY" >
     </ion-datetime>
   </ion-item>
-  <ion-item>
-    <ion-label position="floating">Father Name</ion-label>
+  <ion-item *ngIf="registerAs=='parent'||registerAs=='teacher'">
+    <ion-label position="floating">Father Name*</ion-label>
     <ion-input [(ngModel)]="user.fatherName" type="text"></ion-input>
 </ion-item>
-  <ion-item>
+  <ion-item *ngIf="registerAs=='parent'||registerAs=='teacher'">
       <ion-label position="floating">Email*</ion-label>
-      <ion-input [(ngModel)]="loginUser.email" type="email"></ion-input>
+      <ion-input [(ngModel)]="loginUser.email" ></ion-input>
     </ion-item>
-    <ion-item>
+
+    <ion-item *ngIf="registerAs=='parent'||registerAs=='teacher'">
         <ion-label position="floating">Password*</ion-label>
         <ion-input [(ngModel)]="loginUser.password" type="password"></ion-input>
       </ion-item>    
-  <ion-item>
+  <ion-item *ngIf="registerAs=='parent'||registerAs=='teacher'">
     <ion-label position="floating">Address*</ion-label>
     <ion-textarea  [(ngModel)]="user.address" type="text"></ion-textarea >
   </ion-item>
-  <ion-item>
+  <ion-item *ngIf="registerAs=='parent'||registerAs=='teacher'">
       <ion-label position="floating">Contact*</ion-label>
-      <ion-input [(ngModel)]="user.contactNo" type="tel"></ion-input>
+      <ion-input [(ngModel)]="user.contactNo" type="tel" ui-br-phone-number-mask="countryCode"></ion-input>
     </ion-item>
 
-    <ion-item>
+    <ion-item *ngIf="registerAs=='parent'||registerAs=='teacher'">
         <ion-label position="floating">Emergency Number</ion-label>
         <ion-input [(ngModel)]="user.emergencyNo" type="tel"></ion-input>
       </ion-item>
     
     </div>
     
-    <div *ngIf="registerAs=='teacher'">
-      <ion-item>
-        <ion-label position="floating">Full Name*</ion-label>
-        <ion-input [(ngModel)]="user.name" ></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Employee ID*</ion-label>
-        <ion-input [(ngModel)]="user.registrationNo" type="text"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">CNIC No.*</ion-label>
-        <ion-input [(ngModel)]="user.CNIC"  type="number"></ion-input>
-      </ion-item>
-      <ion-item>
-          <ion-label position="floating">Email*</ion-label>
-          <ion-input [(ngModel)]="loginUser.email" type="email"></ion-input>
-        </ion-item>
-        <ion-item>
-            <ion-label position="floating">Password*</ion-label>
-            <ion-input [(ngModel)]="loginUser.password" type="password"></ion-input>
-          </ion-item>    
-        <ion-item>
-          <ion-label position="floating">Father Name*</ion-label>
-          <ion-input [(ngModel)]="user.fatherName"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Address*</ion-label>
-        <ion-input [(ngModel)]="user.address" type="text"></ion-input>
-      </ion-item>
-
-          <ion-item>
-            <ion-label>Date of Birth*</ion-label>
-            <ion-datetime [(ngModel)]="user.DOB" display-format="MM/DD/YYYY" >
-            </ion-datetime>
-          </ion-item>
-          <ion-item>
-            <ion-label position="floating">Contact*</ion-label>
-            <ion-input [(ngModel)]="user.contactNo" type="tel"></ion-input>
-          </ion-item>
-          <ion-item>
-              <ion-label position="floating">Emergency Number</ion-label>
-              <ion-input [(ngModel)]="user.emergencyNo" type="tel"></ion-input>
-            </ion-item>
-          </div>
   <div *ngIf="registerAs=='school'">
       <ion-item>
           <ion-label position="floating">School Registration Key*</ion-label>
@@ -145,8 +109,12 @@
       </ion-item>
       <ion-item>
           <ion-label position="floating">City*</ion-label>
-          <ion-textarea [(ngModel)]="school.city" type="text"></ion-textarea>
+          <ion-input [(ngModel)]="school.city" type="text"></ion-input>
       </ion-item>
+      <ion-item>
+        <ion-label position="floating">Country*</ion-label>
+        <ion-input [(ngModel)]="school.country" type="text"></ion-input>
+    </ion-item>
 
   </div>
           <ion-button *ngIf="registerAs!=''" color="success" fill = 'outline' (click)="add(user)">Register</ion-button>

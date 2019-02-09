@@ -1,7 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Http} from '@angular/http';
-import { map } from 'rxjs/internal/operators/map';
 import {AccountService} from '../service/account.service'
 import { NavController } from '@ionic/angular';
 import {LoginUser} from '../viewModels/LoginUsers';
@@ -14,19 +11,29 @@ import {LoginUser} from '../viewModels/LoginUsers';
 })
 export class LoginPage implements OnInit {
 
-  constructor(private navCtrl: NavController,private httpClient: HttpClient,private http: Http,private service: AccountService) {
-    alert(this.service.error)
-    if(this.service.error!=''){
-      this.errMsg=this.service.error;
-    }
-   }
-  loginUser = {} as LoginUser
+  constructor(private navCtrl: NavController,private service: AccountService) {}
+  
+  loginUser = {} as LoginUser;
   errMsg="";
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   login() {
-      this.service.loginUser(this.loginUser)
-      console.log(this.service.error)
+    console.log("Login User",this.loginUser)
+    this.service.loginUser(this.loginUser)
+      .subscribe(data=> {console.log("POST Data #######",data.body)
+      if(data.body.loginStatus=='authorized'){
+        this.navCtrl.navigateForward('userHome/'+ data.body.type +'/'+ data.body.username)
+      }
+      else if(data.body.loginStatus=='unauthorized'){
+        this.errMsg = "Incorrect password!";
+      }
+      else if(data.body.loginStatus=='not_exist'){
+        this.errMsg = "Not a registered account";
+      }
+      else{
+        this.errMsg="Check your connection";
+      }
+    })
+
     }
 }

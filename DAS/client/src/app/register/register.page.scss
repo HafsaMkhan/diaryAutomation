@@ -4,3 +4,23 @@
     font-family: 'Quicksand', sans-serif;
     
 }
+
+.native-item{
+    button{
+        background: transparent;
+        display: inline-block;
+        color: inherit;
+        font: inherit;
+        border: 0px;
+        outline: 0px;
+        padding: 0px;
+        transition: all 200ms ease-in;
+        width: 100%;
+        margin: 13px 8px;
+        width: calc(100% - 8px - 8px)
+    }
+}
+
+select option {
+    text-transform: capitalize !important;
+}

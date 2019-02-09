@@ -18,6 +18,9 @@ const School = new Schema({
     city:{
       type:String
     },
+    country:{
+      type:String
+    },
     contactNo: {
       type: String
     },
