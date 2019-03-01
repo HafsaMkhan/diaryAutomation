@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController } from "@ionic/angular";
 import { Http} from '@angular/http';
 import { LoginPage } from '../login/login.page';
+import { AuthGuardService } from '../service/auth-guard.service';
 
 @Component({
   selector: 'app-home',
@@ -9,12 +10,12 @@ import { LoginPage } from '../login/login.page';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-  constructor(public navCtrl: NavController,private http: Http) {  }
+  constructor(public navCtrl: NavController,private http: Http) {
+    if(localStorage.getItem('token')){
+      navCtrl.navigateForward('userHome/'+localStorage.getItem('type')+'/'+localStorage.getItem('username'));
+    }
+  }
 
-ngOnInit(): void {
-  //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-  //Add 'implements OnInit' to the class.
-  
-}
+ngOnInit(): void {}
 
 }

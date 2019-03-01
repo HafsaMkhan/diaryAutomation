@@ -14,9 +14,9 @@
     <ion-list>
         <ion-item>
           <ion-select [(ngModel)]="registerAs" placeholder="Select One" okText="Okay" cancelText="Dismiss">
-            <ion-select-option text-capitalize
-            *ngFor="let key of options" 
-            value="key.title">{{key.title | uppercase}}</ion-select-option>
+            <ion-select-option value="parent" >Parent</ion-select-option>
+            <ion-select-option value="school" >School</ion-select-option>
+            <ion-select-option value="teacher" >Teacher</ion-select-option>
           </ion-select>
         </ion-item>
       </ion-list>

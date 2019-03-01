@@ -77,6 +77,10 @@ app
 .route("/get/userType")
 .get(AdminController.getAll)
 
+app
+.route("/get/login")
+.get(UserController.getRegisterAll)
+
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });

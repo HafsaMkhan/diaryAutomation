@@ -7,6 +7,8 @@ import {LoginUser} from '../viewModels/LoginUsers';
 import {School} from '../viewModels/School';
 import {AccountService} from '../service/account.service'
 import {SchoolService} from '../service/school.service'
+import { NavController } from "@ionic/angular";
+
 
 @Component({
   selector: 'app-register-parent',
@@ -15,13 +17,14 @@ import {SchoolService} from '../service/school.service'
   providers:[AccountService, SchoolService]
 })
 export class RegisterPage implements OnInit {
-  
-  // options=[{value:"parent",name:"Parent"},{value:"school",name:"School"},{value:"teacher",name:"Teacher"}]
 
   constructor(
-    private accountService: AccountService,
-    private schoolService: SchoolService) 
-    {    }
+    private accountService: AccountService,private schoolService: SchoolService, private navCtrl:NavController) 
+    {
+      if(localStorage.getItem('token')){
+        navCtrl.navigateRoot('userHome/'+localStorage.getItem('type')+'/'+localStorage.getItem('username'));
+      }
+    }
   user = {} as User;
   loginUser = {} as LoginUser;
   school = {} as School;
