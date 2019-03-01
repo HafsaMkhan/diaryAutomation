@@ -39,7 +39,8 @@ const User = new Schema({
         default:false
     },
     UserTypeId: {
-      type: String
+      type: Schema.Types.ObjectId,
+       ref:'UserType'
   },
   
   

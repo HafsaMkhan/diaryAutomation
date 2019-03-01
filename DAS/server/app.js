@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 var config=require("./config/db");
 const UserController = require("./controllers/UserController")
 const AdminController = require('./controllers/AdminController')
+const Mail = require('./controllers/NodeMailer')
 
 const app = express();
 const port = process.env.PORT || 3301;
@@ -80,6 +81,10 @@ app
 app
 .route("/get/login")
 .get(UserController.getRegisterAll)
+
+app
+.route("/sendMail")
+.get(AdminController.getAll)
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);

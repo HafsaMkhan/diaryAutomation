@@ -15,9 +15,7 @@ export class ParentHome implements OnInit {
   }
   
 logout() {
-  localStorage.removeItem('token');
-  localStorage.removeItem('username');
-  localStorage.removeItem('type');
+  localStorage.clear();
   this.navCtrl.navigateBack('login');
 }
 

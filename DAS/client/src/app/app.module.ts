@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-
 import { HttpClientModule }    from '@angular/common/http';
 import { BrMaskerModule } from 'br-mask';
 
@@ -13,9 +12,10 @@ import { AuthGuardService } from './service/auth-guard.service';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { TeacherMenuComponent } from './teacher-menu/teacher-menu.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, TeacherMenuComponent],
   entryComponents: [],
   imports: [
     BrowserModule,
